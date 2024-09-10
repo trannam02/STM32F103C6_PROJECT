@@ -1,5 +1,5 @@
-#include "../Inc/exercise3.h"
-
+#include "../Inc/exercise5.h"
+#include "../Inc/exercise4.h"
 //int redTime = 5;
 //int yellowTime = 2;
 //int greenTime = 3;
@@ -63,29 +63,35 @@ void greenOnH() {
 
 }
 ;
-void init_exercise3() {
+void init_exercise5() {
 	redOnV();
 	greenOnH();
 }
 ;
-void run_exercise3() {
+void run_exercise5() {
 	if (count1 > (sum - RED) && count1 <= sum) {
 		redOnV();
+		display7SEG_V(count1 - (sum - RED + 1));
 	};
 	if (count1 > (sum - RED - GREEN) && count1 <= (sum - RED)) {
 		greenOnV();
+		display7SEG_V(count1 - (sum - RED - GREEN + 1));
 	};
 	if (count1 > 0 && count1 <= (sum - RED - GREEN)) {
 		yellowOnV();
+		display7SEG_V(count1 - (0 + 1));
 	};
 	if (count2 > (sum - RED) && count2 <= sum) {
 		redOnH();
+		display7SEG_H(count2 - (sum - RED + 1));
 	};
 	if (count2 > (sum - RED - GREEN) && count2 <= (sum - RED)) {
 		greenOnH();
+		display7SEG_H(count2 - (sum - RED - GREEN + 1));
 	};
 	if (count2 > 0 && count2 <= (sum - RED - GREEN)) {
 		yellowOnH();
+		display7SEG_H(count2 - (0 + 1));
 	};
 	count1--;
 	count2--;
