@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "../Inc/exercise3.h"
+#include "../Inc/exercise4.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -85,7 +86,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  init_exercise3();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -95,7 +96,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  run_exercise3();
+
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
@@ -150,6 +151,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+
   HAL_GPIO_WritePin(GPIOA, LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -159,6 +161,15 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : LED_RED_Pin LED_YELLOW_Pin LED_GREEN_Pin */
   GPIO_InitStruct.Pin = LED_RED_Pin|LED_YELLOW_Pin|LED_GREEN_Pin;
+
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5|SEG_0_Pin|SEG_1_Pin|SEG_2_Pin
+                          |SEG_3_Pin|SEG_4_Pin|SEG_5_Pin|SEG_6_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : PA5 SEG_0_Pin SEG_1_Pin SEG_2_Pin
+                           SEG_3_Pin SEG_4_Pin SEG_5_Pin SEG_6_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_5|SEG_0_Pin|SEG_1_Pin|SEG_2_Pin
+                          |SEG_3_Pin|SEG_4_Pin|SEG_5_Pin|SEG_6_Pin;
+
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
