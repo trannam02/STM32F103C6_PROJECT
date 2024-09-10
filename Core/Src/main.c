@@ -18,11 +18,12 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../Inc/exercise6.h"
+#include "../Inc/exercise8.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -86,8 +87,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  init_exercise6();
-  uint16_t pin = 1;
+  init_exercise8();
+  int count = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -97,18 +98,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // EXERCISE 6 + 7
 
-	  HAL_GPIO_WritePin(GPIOB, pin , SET);
-
-	  if(pin == (uint16_t)0x0800) {
-		  pin = 1;
-	  }else{
-		  pin = pin << 1;
-	  };
-
+	  //////// EXERCISE 8 + 9
+	  setNumberOnClock(count%12);
+	  count++;
 	  HAL_Delay(1000);
-	  if(pin == 1) clearAllClock();
+	  clearNumberOnClock((count-1)%12);
   }
   /* USER CODE END 3 */
 }
