@@ -4,6 +4,6 @@
 #include "main.h"
 
 void setTimer(int timer, int duration);
-unsigned int getFlag(int timer);
+int getFlag(int timer);
 void timerRun();
 #endif
