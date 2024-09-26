@@ -8,7 +8,7 @@ int led_buffer[4] = { 1, 2, 3, 4 };
 void update7SEG_run() {
 	if (getFlag(0) == 1) {
 		update7SEG(++index_led % 4);
-		setTimer(0, 500);
+		setTimer(0, 1000);
 	}
 	;
 	if (getFlag(1) == 1) {
@@ -36,7 +36,7 @@ void update7SEG_init() {
 	enableDOT();
 
 	// init timer
-	setTimer(0, 500);
+	setTimer(0, 1000);
 	setTimer(1, 1000);
 }
 ;
