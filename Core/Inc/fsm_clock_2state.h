@@ -4,9 +4,10 @@
 #include "main.h"
 #include "display.h"
 #include "softwareTimer.h"
-#define ON_OFF 1
-#define OFF_ON 2
-
+#define ON_0 1
+#define ON_1 2
+#define ON_2 3
+#define ON_3 4
 void fsm_init();
 void fsm_run();
 

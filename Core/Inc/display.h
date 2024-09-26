@@ -5,6 +5,9 @@
 void display7SEG(int number);
 void enable0();
 void enable1();
-void disable0();
-void disable1();
+void enable2();
+void enable3();
+
+void enableDOT();
+void disableDOT();
 #endif
