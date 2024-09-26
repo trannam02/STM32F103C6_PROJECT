@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../Inc/fsm_clock_2state.h"
+#include "../Inc/update7SEG.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,7 +91,8 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  fsm_init();
+//  fsm_init();
+  update7SEG_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,7 +102,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  fsm_run();
+	  update7SEG_run();
   }
   /* USER CODE END 3 */
 }

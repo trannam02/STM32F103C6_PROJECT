@@ -28,12 +28,14 @@ void enable3() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, RESET);
 }
 ;
-void enableDOT(){
+void enableDOT() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, RESET);
-};
-void disableDOT(){
+}
+;
+void disableDOT() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, SET);
-};
+}
+;
 void display7SEG(int number) {
 	switch (number) {
 	case 0:
