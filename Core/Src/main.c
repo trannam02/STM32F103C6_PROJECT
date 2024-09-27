@@ -92,7 +92,7 @@ int main(void) {
 	MX_TIM2_Init();
 	/* USER CODE BEGIN 2 */
 	update7SEG_init();
-	int hour = 15, minute = 8, second = 55;
+
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -101,20 +101,7 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		second++;
-		if (second >= 60) {
-			second = 0;
-			minute++;
-		};
-		if (minute >= 60) {
-			minute = 0;
-			hour++;
-		};
-		if (hour >= 24) {
-			hour = 0;
-		};
-		updateClockBuffer(hour, minute, second);
-		HAL_Delay(1000);
+		update7SEG_run();
 	};
 };
 /* USER CODE END 3 */
