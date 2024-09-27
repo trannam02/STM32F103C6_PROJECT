@@ -10,4 +10,6 @@ void enable3();
 
 void enableDOT();
 void disableDOT();
+
+void displayLEDMatrix(int row, uint8_t col);
 #endif

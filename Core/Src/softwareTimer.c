@@ -21,5 +21,4 @@ void timerRun(){
 	if(timerArray[1] <= 0){
 		timerFlag[1] = 1;
 	};
-	update7SEG_run();
 };
