@@ -94,6 +94,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 //	update7SEG_init();
   updateLEDMatrix_init();
+  matrixAnimate_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,6 +105,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 //		update7SEG_run();
 		updateLEDMatrix_run();
+		matrixAnimate_run();
 	};
 };
   /* USER CODE END 3 */

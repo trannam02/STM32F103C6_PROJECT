@@ -7,4 +7,8 @@
 void updateLEDMatrix_init();
 void updateLEDMatrix_run();
 void updateLEDMatrix(int index);
+
+void matrixAnimate_init();
+void matrixAnimate_run();
+
 #endif

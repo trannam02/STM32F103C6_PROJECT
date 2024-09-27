@@ -3,6 +3,23 @@
 const int MAX_LED_MATRIX = 8;
 int index_matrix = 0;
 uint8_t matrix_buffer[8] = {0x18, 0x24, 0x66, 0x42, 0x81, 0xFF, 0x81, 0x81};
+//uint8_t matrix_buffer[8] = {0x00, 0x00, 0x00, 0x18, 0x18, 0x00, 0x00, 0x00};
+void matrixAnimate_init(){
+	setTimer(1, 800);
+};
+void matrixAnimate_run(){
+	if(getFlag(1) == 1){
+		matrix_buffer[0] = (matrix_buffer[0] >> 1)|(matrix_buffer[0]<<7);
+		matrix_buffer[1] = (matrix_buffer[1] >> 1)|(matrix_buffer[1]<<7);
+		matrix_buffer[2] = (matrix_buffer[2] >> 1)|(matrix_buffer[2]<<7);
+		matrix_buffer[3] = (matrix_buffer[3] >> 1)|(matrix_buffer[3]<<7);
+		matrix_buffer[4] = (matrix_buffer[4] >> 1)|(matrix_buffer[4]<<7);
+		matrix_buffer[5] = (matrix_buffer[5] >> 1)|(matrix_buffer[5]<<7);
+		matrix_buffer[6] = (matrix_buffer[6] >> 1)|(matrix_buffer[6]<<7);
+		matrix_buffer[7] = (matrix_buffer[7] >> 1)|(matrix_buffer[7]<<7);
+		setTimer(1, 800);
+	};
+};
 
 void updateLEDMatrix_init() {
 	updateLEDMatrix(0);
