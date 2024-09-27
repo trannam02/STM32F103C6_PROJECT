@@ -1,5 +1,5 @@
 #include "../Inc/softwareTimer.h"
-
+#include "../Inc/update7SEG.h"
 int timerArray[10];
 int timerFlag[10];
 int timerArrayCount = 0;
@@ -21,4 +21,5 @@ void timerRun(){
 	if(timerArray[1] <= 0){
 		timerFlag[1] = 1;
 	};
+	update7SEG_run();
 };

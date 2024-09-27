@@ -8,20 +8,27 @@ int led_buffer[4] = { 1, 2, 3, 4 };
 void update7SEG_run() {
 	if (getFlag(0) == 1) {
 		update7SEG(++index_led % 4);
-		setTimer(0, 1000);
-	}
-	;
+		setTimer(0, 500);
+	};
 	if (getFlag(1) == 1) {
-		if(dot_state == 1) {
+		if (dot_state == 1) {
 			disableDOT();
 			dot_state = OFF;
-		}
-		else {
+		} else {
 			enableDOT();
 			dot_state = ON;
 		};
-		setTimer(1,1000);
+		setTimer(1, 1000);
 	};
+
+}
+;
+
+void updateClockBuffer(int h, int m, int s) {
+	led_buffer[0] = h / 10;
+	led_buffer[1] = h % 10;
+	led_buffer[2] = m / 10;
+	led_buffer[3] = m % 10;
 }
 ;
 
@@ -36,7 +43,7 @@ void update7SEG_init() {
 	enableDOT();
 
 	// init timer
-	setTimer(0, 1000);
+	setTimer(0, 500);
 	setTimer(1, 1000);
 }
 ;

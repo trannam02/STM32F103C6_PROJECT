@@ -11,5 +11,6 @@
 void update7SEG_init();
 void update7SEG_run();
 void update7SEG(int index);
+void updateClockBuffer(int h, int m, int s);
 
 #endif
