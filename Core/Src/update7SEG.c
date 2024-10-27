@@ -7,11 +7,11 @@ int led_buffer[4] = { 1, 2, 3, 4 };
 
 int hour = 15, minute = 8, second = 55;
 void update7SEG_run() {
-	if (getFlag(0) == 1) {
+	if (getTimerFlag(0) == 1) {
 		update7SEG(++index_led % 4);
 		setTimer(0, 500);
 	};
-	if (getFlag(1) == 1) {
+	if (getTimerFlag(1) == 1) {
 		if (dot_state == 1) {
 			disableDOT();
 			dot_state = OFF;
