@@ -5,6 +5,8 @@
 #include "global.h"
 #include "button.h"
 #include "display.h"
+#include "update7SEG.h"
+
 void fsm_setting_init();
 void fsm_setting_run();
 #endif

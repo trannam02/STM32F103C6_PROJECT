@@ -22,30 +22,30 @@ void button_run() {
 		setTimer(1, TICK);
 		getKeyInput();
 	};
-	if (pressedFlags[0] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-		pressedFlags[0] = 0;
-	};
-	if (longPressedFlags[0] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-		longPressedFlags[0] = 0;
-	};
-	if (pressedFlags[1] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-		pressedFlags[1] = 0;
-	};
-	if (longPressedFlags[1] == 1) {
-			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-			longPressedFlags[1] = 0;
-		};
-	if (pressedFlags[2] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-		pressedFlags[2] = 0;
-	};
-	if (longPressedFlags[2] == 1) {
-			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-			longPressedFlags[2] = 0;
-	};
+//	if (pressedFlags[0] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//		pressedFlags[0] = 0;
+//	};
+//	if (longPressedFlags[0] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//		longPressedFlags[0] = 0;
+//	};
+//	if (pressedFlags[1] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//		pressedFlags[1] = 0;
+//	};
+//	if (longPressedFlags[1] == 1) {
+//			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//			longPressedFlags[1] = 0;
+//		};
+//	if (pressedFlags[2] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//		pressedFlags[2] = 0;
+//	};
+//	if (longPressedFlags[2] == 1) {
+//			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//			longPressedFlags[2] = 0;
+//	};
 }
 ;
 

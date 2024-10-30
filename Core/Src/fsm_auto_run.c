@@ -88,8 +88,10 @@ void fsm_auto_run() {
 			setTimer(2, timeYellow * 1000);
 		}
 		;
+
 		update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
 				Horizontal_value / 10, Horizontal_value % 10);
+
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_RED;
 			resetAll();
@@ -127,6 +129,8 @@ void fsm_auto_run() {
 		;
 		V_Yellow();
 		H_Red();
+		break;
+	default:
 		break;
 	};
 
