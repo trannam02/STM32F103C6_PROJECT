@@ -2,11 +2,11 @@
 #define FSM_AUTO_RUN_H
 
 #include <main.h>
-
-#define MAN_RED_GREEN 1
-#define MAN_RED_YELLOW 2
-#define MAN_GREEN_RED 3
-#define MAN_YELLOW_RED 4
+#include "global.h"
+#include "softwareTimer.h"
+#include "display.h"
+#include "update7SEG.h"
+#include "button.h"
 
 void fsm_auto_init();
 void fsm_auto_run();

@@ -19,5 +19,10 @@ void button_init();
 void button_run();
 void getKeyInput();
 
-int getButtonFlag();
+// PRESS
+int getButtonPressFlag(int index);
+void setButtonPressFlag(int index, int value);
+// LONG PRESS
+int getButtonLongPressFlag(int index);
+void setButtonLongPressFlag(int index, int value);
 #endif

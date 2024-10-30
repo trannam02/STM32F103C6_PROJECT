@@ -64,6 +64,18 @@ void Error_Handler(void);
 #define BUTTON_2_GPIO_Port GPIOC
 #define BUTTON_3_Pin GPIO_PIN_15
 #define BUTTON_3_GPIO_Port GPIOC
+#define V_RED_Pin GPIO_PIN_7
+#define V_RED_GPIO_Port GPIOA
+#define V_YELLOW_Pin GPIO_PIN_8
+#define V_YELLOW_GPIO_Port GPIOA
+#define V_GREEN_Pin GPIO_PIN_9
+#define V_GREEN_GPIO_Port GPIOA
+#define H_RED_Pin GPIO_PIN_10
+#define H_RED_GPIO_Port GPIOA
+#define H_YELLOW_Pin GPIO_PIN_11
+#define H_YELLOW_GPIO_Port GPIOA
+#define H_GREEN_Pin GPIO_PIN_12
+#define H_GREEN_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

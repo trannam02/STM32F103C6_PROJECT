@@ -2,67 +2,32 @@
 
 const int MAX_LED = 4;
 int index_led = 0;
-int dot_state = ON;
-int led_buffer[4] = { 1, 2, 3, 4 };
+int led_buffer[4] = {0,0,0,0};
 
-int hour = 15, minute = 8, second = 55;
-void update7SEG_run() {
-	if (getTimerFlag(0) == 1) {
-		update7SEG(++index_led % 4);
-		setTimer(0, 500);
-	};
-	if (getTimerFlag(1) == 1) {
-		if (dot_state == 1) {
-			disableDOT();
-			dot_state = OFF;
-		} else {
-			enableDOT();
-			dot_state = ON;
-		};
-		second++;
-		if (second >= 60) {
-			second = 0;
-			minute++;
-		};
-		if (minute >= 60) {
-			minute = 0;
-			hour++;
-		};
-		if (hour >= 24) {
-			hour = 0;
-		};
-		updateClockBuffer(hour, minute, second);
-		setTimer(1, 1000);
-	};
-
-}
-;
-void updateClockBuffer(int h, int m, int s) {
-	led_buffer[0] = h / 10;
-	led_buffer[1] = h % 10;
-	led_buffer[2] = m / 10;
-	led_buffer[3] = m % 10;
-}
-;
+void update7SEGBuffer(int led0, int led1, int led2, int led3){
+	led_buffer[0] = led0;
+	led_buffer[1] = led1;
+	led_buffer[2] = led2;
+	led_buffer[3] = led3;
+};
 
 void update7SEG_init() {
-	updateClockBuffer(hour, minute, second);
-
 	// init four led segment
 	index_led = 0;
 	enable0();
 	display7SEG(led_buffer[0]);
 
-	// init dot
-	dot_state = ON;
-	enableDOT();
-
 	// init timer
-	setTimer(0, 500);
-	setTimer(1, 1000);
+	setTimer(3, 250);
 }
 ;
-
+void update7SEG_run() {
+	if (getTimerFlag(3) == 1) {
+		update7SEG(++index_led % 4);
+		setTimer(3, 250);
+	};
+}
+;
 void update7SEG(int index) {
 	switch (index) {
 	case 0:

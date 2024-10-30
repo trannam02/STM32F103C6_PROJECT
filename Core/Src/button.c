@@ -45,9 +45,14 @@ void button_run() {
 	if (longPressedFlags[2] == 1) {
 			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
 			longPressedFlags[2] = 0;
-		};
+	};
 }
 ;
+
+int getButtonPressFlag(int index){return pressedFlags[index];};
+void setButtonPressFlag(int index, int value){pressedFlags[index] = value;};
+int getButtonLongPressFlag(int index){return longPressedFlags[index];};
+void setButtonLongPressFlag(int index, int value){longPressedFlags[index] = value;};
 
 void getKeyInput() {
 	keyReg2s[0] = keyReg1s[0];
