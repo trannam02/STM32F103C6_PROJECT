@@ -1,44 +1,128 @@
 #include "../Inc/button.h"
-int keyReg0 = NORMAL_STATE;
-int keyReg1 = NORMAL_STATE;
-int keyReg2 = NORMAL_STATE;
-int keyRegStable = NORMAL_STATE;
-const int DURATION = 100;
-int longPressDuration = DURATION;
 
-void button_init(){
+int keyReg0s[NO_BUTTON] = {NORMAL_STATE,NORMAL_STATE,NORMAL_STATE };
+int keyReg1s[NO_BUTTON] = {NORMAL_STATE,NORMAL_STATE,NORMAL_STATE };
+int keyReg2s[NO_BUTTON] = {NORMAL_STATE,NORMAL_STATE,NORMAL_STATE };
+int keyRegStables[NO_BUTTON] = {NORMAL_STATE,NORMAL_STATE,NORMAL_STATE } ;
+
+int longPressDurations[NO_BUTTON] = {LONG_PRESS_DURATION,LONG_PRESS_DURATION,LONG_PRESS_DURATION };
+
+int states[NO_BUTTON] = {RELEASED,RELEASED,RELEASED};
+int pressedFlags[NO_BUTTON] = {0,0,0};
+int longPressedFlags[NO_BUTTON] = {0,0,0};
+void button_init() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, SET);
-	setTimer(0, 2);
-};
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, SET);
+	setTimer(1, TICK);
+}
+;
 
-void button_run(){
-	if(getTimerFlag(0) == 1){
+void button_run() {
+	if (getTimerFlag(1) == 1) {
+		setTimer(1, TICK);
 		getKeyInput();
-		setTimer(0, 2);
 	};
-};
+	if (pressedFlags[0] == 1) {
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+		pressedFlags[0] = 0;
+	};
+	if (longPressedFlags[0] == 1) {
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+		longPressedFlags[0] = 0;
+	};
+	if (pressedFlags[1] == 1) {
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+		pressedFlags[1] = 0;
+	};
+	if (longPressedFlags[1] == 1) {
+			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+			longPressedFlags[1] = 0;
+		};
+	if (pressedFlags[2] == 1) {
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+		pressedFlags[2] = 0;
+	};
+	if (longPressedFlags[2] == 1) {
+			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+			longPressedFlags[2] = 0;
+		};
+}
+;
 
-void getKeyInput(){
-	keyReg2 = keyReg1;
-	keyReg1 = keyReg0;
-	keyReg0 = HAL_GPIO_ReadPin(BUTTON_GPIO_Port, BUTTON_Pin);
+void getKeyInput() {
+	keyReg2s[0] = keyReg1s[0];
+	keyReg1s[0] = keyReg0s[0];
+	keyReg0s[0] = HAL_GPIO_ReadPin(BUTTON_1_GPIO_Port, BUTTON_1_Pin);
 
-	if( (keyReg0 == keyReg1) && (keyReg1 == keyReg2) ){
-		if(keyReg0 != keyRegStable){ // doi trang thai
-			keyRegStable = keyReg0;
-			if(keyRegStable == PRESSED_STATE){
-				longPressDuration = DURATION;
-				HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-			};
-		}else{ // khong doi trang thai
-			longPressDuration--;
-			if(longPressDuration == 0){
-				longPressDuration = DURATION;
-				if(keyRegStable == PRESSED_STATE){
-					// TODO long press
-					HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-				};
+	keyReg2s[1] = keyReg1s[1];
+	keyReg1s[1] = keyReg0s[1];
+	keyReg0s[1] = HAL_GPIO_ReadPin(BUTTON_2_GPIO_Port, BUTTON_2_Pin);
+
+	keyReg2s[2] = keyReg1s[2];
+	keyReg1s[2] = keyReg0s[2];
+	keyReg0s[2] = HAL_GPIO_ReadPin(BUTTON_3_GPIO_Port, BUTTON_3_Pin);
+
+	for (int i = 0; i < NO_BUTTON; i++) {
+		if ((keyReg0s[i] == keyReg1s[i]) && (keyReg1s[i] == keyReg2s[i])) {
+			keyRegStables[i] = keyReg0s[i];
+			switch (states[i]) {
+			case RELEASED:
+				if (keyRegStables[i] == PRESSED_STATE) {
+					states[i] = PRESSED;
+					longPressDurations[i] = LONG_PRESS_DURATION;
+				}
+				;
+				break;
+			case PRESSED:
+				if (keyRegStables[i] == NORMAL_STATE) {
+					pressedFlags[i] = 1;
+					states[i] = RELEASED;
+				} else {
+					longPressDurations[i]--;
+				}
+				;
+				if (longPressDurations[i] == 0) {
+					longPressedFlags[i] = 1;
+					states[i] = LONG_PRESSED;
+					longPressDurations[i] = LONG_PRESS_DURATION;
+				}
+				;
+				break;
+			case LONG_PRESSED:
+				if (keyRegStables[i] == NORMAL_STATE) {
+					states[i] = RELEASED;
+				} else {
+					longPressDurations[i]--;
+				}
+				;
+				if (longPressDurations[i] == 0) {
+					longPressedFlags[i] = 1;
+					longPressDurations[i] = LONG_PRESS_DURATION;
+				}
+				;
+				break;
+			default:
+				break;
 			};
 		};
 	};
-};
+//	if( (keyReg0 == keyReg1) && (keyReg1 == keyReg2) ){
+//		if(keyReg0 != keyRegStable){ // doi trang thai
+//			keyRegStable = keyReg0;
+//			if(keyRegStable == PRESSED_STATE){
+//				longPressDuration = DURATION;
+//				HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//			};
+//		}else{ // khong doi trang thai
+//			longPressDuration--;
+//			if(longPressDuration == 0){
+//				longPressDuration = DURATION;
+//				if(keyRegStable == PRESSED_STATE){
+//					// TODO long press
+//					HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//				};
+//			};
+//		};
+//	};
+}
+;

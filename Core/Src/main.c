@@ -96,7 +96,7 @@ int main(void)
 //  updateLEDMatrix_init();
 //  matrixAnimate_init();
   	setTimer(0, 1000);
-  	button_init();
+//  	button_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,7 +108,7 @@ int main(void)
 //		update7SEG_run();
 //		updateLEDMatrix_run();
 //		matrixAnimate_run();
-		button_run();
+//		button_run();
 
 		// toggle led
 		if(getTimerFlag(0) == 1){
@@ -116,8 +116,9 @@ int main(void)
 			setTimer(0, 1000);
 		};
 	};
-};
+
   /* USER CODE END 3 */
+}
 
 /**
   * @brief System Clock Configuration
@@ -213,16 +214,16 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : BUTTON_Pin */
-  GPIO_InitStruct.Pin = BUTTON_Pin;
+  /*Configure GPIO pins : BUTTON_1_Pin BUTTON_2_Pin BUTTON_3_Pin */
+  GPIO_InitStruct.Pin = BUTTON_1_Pin|BUTTON_2_Pin|BUTTON_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(BUTTON_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pins : PA5 PA6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

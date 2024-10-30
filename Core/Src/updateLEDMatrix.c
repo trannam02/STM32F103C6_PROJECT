@@ -8,7 +8,7 @@ void matrixAnimate_init(){
 	setTimer(1, 800);
 };
 void matrixAnimate_run(){
-	if(getFlag(1) == 1){
+	if(getTimerFlag(1) == 1){
 		matrix_buffer[0] = (matrix_buffer[0] >> 1)|(matrix_buffer[0]<<7);
 		matrix_buffer[1] = (matrix_buffer[1] >> 1)|(matrix_buffer[1]<<7);
 		matrix_buffer[2] = (matrix_buffer[2] >> 1)|(matrix_buffer[2]<<7);
@@ -27,7 +27,7 @@ void updateLEDMatrix_init() {
 }
 ;
 void updateLEDMatrix_run() {
-	if (getFlag(0) == 1) {
+	if (getTimerFlag(0) == 1) {
 		updateLEDMatrix(++index_matrix % 8);
 		setTimer(0, 100);
 	};
