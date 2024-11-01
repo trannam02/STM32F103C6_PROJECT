@@ -7,11 +7,16 @@ void fsm_setting_init() {
 ;
 void fsm_setting_run() {
 	switch (status) {
+	case MODE_EDIT_INIT:
+		resetAllSingleLed();
+		update7SEGBuffer((timeGreen + timeYellow) / 10,
+				(timeGreen + timeYellow) % 10, 0, 2);
+		status = MODE_EDIT_RED;
+		break;
 	case MODE_EDIT_RED:
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_YELLOW;
-			update7SEGBuffer(timeYellow / 10,
-								timeYellow % 10, 0, 3);
+			update7SEGBuffer(timeYellow / 10, timeYellow % 10, 0, 3);
 			tempData = 0;
 			setButtonPressFlag(0, 0);
 		}
@@ -39,8 +44,7 @@ void fsm_setting_run() {
 	case MODE_EDIT_YELLOW:
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_GREEN;
-			update7SEGBuffer(timeGreen / 10,
-											timeGreen % 10, 0, 4);
+			update7SEGBuffer(timeGreen / 10, timeGreen % 10, 0, 4);
 			tempData = 0;
 			setButtonPressFlag(0, 0);
 		}
@@ -67,17 +71,16 @@ void fsm_setting_run() {
 		break;
 	case MODE_EDIT_GREEN:
 		if (getButtonPressFlag(0) == 1) {
-			status = MAN_RED_GREEN;
+			status = AUTO_INIT;
 			tempData = 0;
-
-			Vertical_value = timeGreen + timeYellow;
-			Horizontal_value = timeGreen;
-			update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
-							Horizontal_value / 10, Horizontal_value % 10);
-			V_Red();
-			H_Green();
-			setTimer(2, timeGreen * 1000);
-			setTimer(4, 1000);
+//			Vertical_value = timeGreen + timeYellow;
+//			Horizontal_value = timeGreen;
+//			update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
+//					Horizontal_value / 10, Horizontal_value % 10);
+//			V_Red();
+//			H_Green();
+//			setTimer(2, timeGreen * 1000);
+//			setTimer(4, 1000);
 
 			setButtonPressFlag(0, 0);
 		}

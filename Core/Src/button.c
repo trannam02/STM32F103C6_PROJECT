@@ -11,43 +11,43 @@ int states[NO_BUTTON] = {RELEASED,RELEASED,RELEASED};
 int pressedFlags[NO_BUTTON] = {0,0,0};
 int longPressedFlags[NO_BUTTON] = {0,0,0};
 void button_init() {
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, SET);
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, SET);
-	setTimer(1, TICK);
+//	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, SET);
+//	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, SET);
+//	setTimer(1, TICK);
 }
 ;
 
-void button_run() {
-	if (getTimerFlag(1) == 1) {
-		setTimer(1, TICK);
-		getKeyInput();
-	};
-	if (pressedFlags[0] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-//		pressedFlags[0] = 0;
-	};
-	if (longPressedFlags[0] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-		longPressedFlags[0] = 0;
-	};
-	if (pressedFlags[1] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-//		pressedFlags[1] = 0;
-	};
-	if (longPressedFlags[1] == 1) {
-			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-			longPressedFlags[1] = 0;
-		};
-	if (pressedFlags[2] == 1) {
-		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-//		pressedFlags[2] = 0;
-	};
-	if (longPressedFlags[2] == 1) {
-			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
-			longPressedFlags[2] = 0;
-	};
-}
-;
+//void button_run() {
+////	if (getTimerFlag(1) == 1) {
+////		setTimer(1, TICK);
+////		getKeyInput();
+////	};
+//	if (pressedFlags[0] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+////		pressedFlags[0] = 0;
+//	};
+//	if (longPressedFlags[0] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//		longPressedFlags[0] = 0;
+//	};
+//	if (pressedFlags[1] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+////		pressedFlags[1] = 0;
+//	};
+//	if (longPressedFlags[1] == 1) {
+//			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//			longPressedFlags[1] = 0;
+//		};
+//	if (pressedFlags[2] == 1) {
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+////		pressedFlags[2] = 0;
+//	};
+//	if (longPressedFlags[2] == 1) {
+//			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+//			longPressedFlags[2] = 0;
+//	};
+//}
+//;
 
 int getButtonPressFlag(int index){return pressedFlags[index];};
 void setButtonPressFlag(int index, int value){pressedFlags[index] = value;};
@@ -81,6 +81,7 @@ void getKeyInput() {
 			case PRESSED:
 				if (keyRegStables[i] == NORMAL_STATE) {
 					pressedFlags[i] = 1;
+					HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
 					states[i] = RELEASED;
 				} else {
 					longPressDurations[i]--;
@@ -111,23 +112,5 @@ void getKeyInput() {
 			};
 		};
 	};
-//	if( (keyReg0 == keyReg1) && (keyReg1 == keyReg2) ){
-//		if(keyReg0 != keyRegStable){ // doi trang thai
-//			keyRegStable = keyReg0;
-//			if(keyRegStable == PRESSED_STATE){
-//				longPressDuration = DURATION;
-//				HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//			};
-//		}else{ // khong doi trang thai
-//			longPressDuration--;
-//			if(longPressDuration == 0){
-//				longPressDuration = DURATION;
-//				if(keyRegStable == PRESSED_STATE){
-//					// TODO long press
-//					HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//				};
-//			};
-//		};
-//	};
 }
 ;

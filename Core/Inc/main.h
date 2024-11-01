@@ -32,7 +32,11 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "fsm_auto_run.h"
+#include "fsm_setting.h"
+#include "fsm_manual.h"
 
+#include "button.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

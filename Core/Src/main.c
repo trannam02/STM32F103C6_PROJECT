@@ -22,10 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "../Inc/button.h"
-#include "../Inc/display.h"
-#include "../Inc/fsm_auto_run.h"
-#include "../Inc/fsm_setting.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,6 +58,7 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	timerRun();
+	getKeyInput();
 }
 ;
 /* USER CODE END 0 */
@@ -101,7 +99,7 @@ int main(void)
   	setTimer(0, 1000);
   	fsm_auto_init();
   	fsm_setting_init();
-  	button_init();
+  	fsm_manual_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,8 +108,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		button_run();
 		fsm_auto_run();
+		fsm_manual_run();
 		fsm_setting_run();
 		// toggle led
 		if(getTimerFlag(0) == 1){
