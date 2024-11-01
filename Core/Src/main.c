@@ -110,9 +110,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		update7SEG_run();
-//		updateLEDMatrix_run();
-//		matrixAnimate_run();
 		button_run();
 		fsm_auto_run();
 		fsm_setting_run();

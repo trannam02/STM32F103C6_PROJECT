@@ -31,7 +31,7 @@ void fsm_setting_run() {
 		}
 		;
 		if (getTimerFlag(5) == 1) {
-			blinkAll();
+			blinkAllSingleLed();
 			setTimer(5, 500);
 		}
 		;
@@ -60,7 +60,7 @@ void fsm_setting_run() {
 		}
 		;
 		if (getTimerFlag(5) == 1) {
-			blinkAll();
+			blinkAllSingleLed();
 			setTimer(5, 500);
 		}
 		;
@@ -98,7 +98,7 @@ void fsm_setting_run() {
 		}
 		;
 		if (getTimerFlag(5) == 1) {
-			blinkAll();
+			blinkAllSingleLed();
 			setTimer(5, 500);
 		}
 		;

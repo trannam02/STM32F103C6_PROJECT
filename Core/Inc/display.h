@@ -10,8 +10,8 @@ void H_Red();
 void H_Yellow();
 void H_Green();
 
-void resetAll();
-void blinkAll();
+void resetAllSingleLed();
+void blinkAllSingleLed();
 void display7SEG(int number);
 
 void enable0();

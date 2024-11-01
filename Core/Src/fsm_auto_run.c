@@ -37,16 +37,18 @@ void fsm_auto_run() {
 		;
 		update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
 				Horizontal_value / 10, Horizontal_value % 10);
+
+		V_Red();
+		H_Green();
+
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_RED;
-			resetAll();
+			resetAllSingleLed();
 			update7SEGBuffer((timeGreen + timeYellow) / 10,
 					(timeGreen + timeYellow) % 10, 0, 2);
 			setButtonPressFlag(0, 0);
 		}
 		;
-		V_Red();
-		H_Green();
 		break;
 	case MAN_RED_YELLOW:
 		if (getTimerFlag(4) == 1) {
@@ -64,16 +66,18 @@ void fsm_auto_run() {
 		;
 		update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
 				Horizontal_value / 10, Horizontal_value % 10);
+
+		V_Red();
+		H_Yellow();
+
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_RED;
-			resetAll();
+			resetAllSingleLed();
 			update7SEGBuffer((timeGreen + timeYellow) / 10,
 					(timeGreen + timeYellow) % 10, 0, 2);
 			setButtonPressFlag(0, 0);
 		}
 		;
-		V_Red();
-		H_Yellow();
 		break;
 	case MAN_GREEN_RED:
 		if (getTimerFlag(4) == 1) {
@@ -92,16 +96,17 @@ void fsm_auto_run() {
 		update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
 				Horizontal_value / 10, Horizontal_value % 10);
 
+		V_Green();
+		H_Red();
+
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_RED;
-			resetAll();
+			resetAllSingleLed();
 			update7SEGBuffer((timeGreen + timeYellow) / 10,
 					(timeGreen + timeYellow) % 10, 0, 2);
 			setButtonPressFlag(0, 0);
 		}
 		;
-		V_Green();
-		H_Red();
 		break;
 	case MAN_YELLOW_RED:
 		if (getTimerFlag(4) == 1) {
@@ -119,16 +124,18 @@ void fsm_auto_run() {
 		;
 		update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
 				Horizontal_value / 10, Horizontal_value % 10);
+
+		V_Yellow();
+		H_Red();
+
 		if (getButtonPressFlag(0) == 1) {
 			status = MODE_EDIT_RED;
-			resetAll();
+			resetAllSingleLed();
 			update7SEGBuffer((timeGreen + timeYellow) / 10,
 					(timeGreen + timeYellow) % 10, 0, 2);
 			setButtonPressFlag(0, 0);
 		}
 		;
-		V_Yellow();
-		H_Red();
 		break;
 	default:
 		break;

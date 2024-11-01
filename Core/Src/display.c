@@ -60,7 +60,7 @@ void enable3() {
 }
 ;
 
-void resetAll() {
+void resetAllSingleLed() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, SET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, SET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, SET);
@@ -69,7 +69,7 @@ void resetAll() {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, SET);
 }
 ;
-void blinkAll() {
+void blinkAllSingleLed() {
 	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_7);
 	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_8);
 	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_9);
