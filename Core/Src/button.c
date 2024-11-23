@@ -17,6 +17,7 @@ void button_init() {
 }
 ;
 
+
 //void button_run() {
 ////	if (getTimerFlag(1) == 1) {
 ////		setTimer(1, TICK);
@@ -81,6 +82,7 @@ void getKeyInput() {
 			case PRESSED:
 				if (keyRegStables[i] == NORMAL_STATE) {
 					pressedFlags[i] = 1;
+					// toggle a led when button click
 					HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
 					states[i] = RELEASED;
 				} else {

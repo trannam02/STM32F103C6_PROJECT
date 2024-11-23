@@ -10,7 +10,6 @@ void fsm_auto_init() {
 //	status = AUTO_RED_GREEN;
 	V_Red();
 	H_Green();
-
 	update7SEGBuffer(Vertical_value / 10, Vertical_value % 10,
 			Horizontal_value / 10, Horizontal_value % 10);
 	update7SEG_init();
@@ -113,6 +112,7 @@ void fsm_auto_run() {
 		H_Red();
 
 		if (getButtonPressFlag(0) == 1) {
+
 			status = MAN_INIT;
 			resetAllSingleLed();
 			update7SEGBuffer((timeGreen + timeYellow) / 10,
