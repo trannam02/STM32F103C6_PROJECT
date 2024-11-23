@@ -18,5 +18,9 @@ typedef struct struct_task{
 		uint32_t TaskID;
 } sTask;
 
+void SCH_Init();
 void SCH_Add_Task(void(*func)(void), unsigned int delay, unsigned int period);
+void SCH_Update();
+void SCH_Dispatch_Task();
+void SCH_Delete_Task(unsigned int taskID);
 #endif
