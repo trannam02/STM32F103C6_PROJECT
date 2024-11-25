@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <scheduler.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +57,7 @@ static void MX_TIM2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	timerRun();
+	SCH_Update();
 	getKeyInput();
 }
 ;
@@ -67,6 +67,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   * @brief  The application entry point.
   * @retval int
   */
+void toggleLed(void *args){
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+};
+void killTask(void *args){
+	if(args == NULL) return;
+	uint8_t * id = args;
+	SCH_Delete_Task(*id);
+}
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -96,26 +104,26 @@ int main(void)
 //	update7SEG_init();
 //  updateLEDMatrix_init();
 //  matrixAnimate_init();
-  	setTimer(0, 1000);
-  	fsm_auto_init();
-  	fsm_setting_init();
-  	fsm_manual_init();
+
+SCH_Init();
+uint8_t id = SCH_Add_Task(&toggleLed,NULL, 1000, 1000);
+SCH_Add_Task(&killTask,&id, 3000, 0);
+//  	fsm_auto_init();
+//  	fsm_setting_init();
+//  	fsm_manual_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1) {
     /* USER CODE END WHILE */
-
+		SCH_Dispatch_Task();
     /* USER CODE BEGIN 3 */
-		fsm_auto_run();
-		fsm_manual_run();
-		fsm_setting_run();
+//		fsm_auto_run();
+//		fsm_manual_run();
+//		fsm_setting_run();
 		// toggle led
-		if(getTimerFlag(0) == 1){
-			HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-			setTimer(0, 1000);
-		};
+
 	};
 
   /* USER CODE END 3 */

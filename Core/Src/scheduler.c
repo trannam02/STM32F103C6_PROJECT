@@ -1,79 +1,152 @@
 #include <scheduler.h>
 
+uint8_t SCH_tasks_valid[SCH_MAX_TASKS];
 sTask SCH_tasks[SCH_MAX_TASKS];
-sTask * p_SCH_tasks[SCH_MAX_TASKS];
+sTask *p_SCH_tasks[SCH_MAX_TASKS];
+
 uint8_t SCH_task_count = 0;
 int present = 0;
-unsigned char pre = 0;
+uint8_t pre = 0;
 
-void SCH_Init(){
+void SCH_Init() {
+	for (int i = 0; i < SCH_MAX_TASKS; i++) {
+		SCH_tasks_valid[i] = 0;
+		p_SCH_tasks[i] = NULL;
+	};
+}
+;
 
-};
-
-void SCH_Add_Task(void(*func)(void), unsigned int delay, unsigned int period){
-	if(SCH_task_count >= SCH_MAX_TASKS){
-		return;
+uint8_t SCH_Add_Task(void (*func)(void*), void * args, uint32_t _delay, uint32_t _period) {
+	uint32_t delay = _delay/10;
+	uint32_t period = _period/10;
+	if (SCH_task_count >= SCH_MAX_TASKS) {
+		return 0xFF;
 	};
 	// set infor of task (add task thi se su dung count, delete task thi don ve dau tien)
-	SCH_tasks[SCH_task_count].pTask = func;
-	SCH_tasks[SCH_task_count].Delay = delay;
-	SCH_tasks[SCH_task_count].Period = period;
-	SCH_tasks[SCH_task_count].RunMe = 0;
-	SCH_tasks[SCH_task_count].TaskID = SCH_task_count;
+	int id = 0;
+	for (id = 0; id < SCH_MAX_TASKS; id++) {
+		if (SCH_tasks_valid[id] == 0) {
+			SCH_tasks_valid[id] = 1;
+			break;
+		};
+	};
+	SCH_tasks[id].pTask = func;
+	SCH_tasks[id].args = args;
+	SCH_tasks[id].Delay = delay;
+	SCH_tasks[id].Period = period;
+	SCH_tasks[id].RunMe = 0;
+	SCH_tasks[id].TaskID = id;
 
-	    // add new task
-	    int newValue = delay;
-	    int i = 0;
+	// add new task
+	int newValue = delay;
+	int i = 0;
+	int tempResult = 0;
+	while (i < SCH_task_count) {
+		tempResult = newValue
+				- p_SCH_tasks[(i + present) % SCH_MAX_TASKS]->Delay;
+		if (tempResult >= 0) {
+			newValue = tempResult;
+		} else
+			break;
+		i++;
+	};
 
-	    int tempResult = 0;
-	    while(i < SCH_task_count) {
-	        tempResult = newValue - p_SCH_tasks[(i + present)%max]->Delay;
-	        if(tempResult >= 0) {
-	            newValue = tempResult;
-	        } else
-	            break;
-	        i++;
-	    };
+	int j = SCH_task_count + present;
+	while (j > (i + present)) { // move timers to the end
+		p_SCH_tasks[j % SCH_MAX_TASKS] = p_SCH_tasks[(j - 1) % SCH_MAX_TASKS];
+		j--;
+	};
+	if (j != (SCH_task_count + present))
+		p_SCH_tasks[(i + 1 + present) % SCH_MAX_TASKS]->Delay -= newValue;
 
-	    int j = SCH_task_count + present;
-	    while(j > (i + present)){ // move timers to the end
-	    	p_SCH_tasks[j%SCH_MAX_TASKS] = p_SCH_tasks[(j-1)%SCH_MAX_TASKS];
-	        j--;
-	    };
-	    if(j != (SCH_task_count + present))
-	    	p_SCH_tasks[i+1+present]->Delay -= newValue;
+	SCH_tasks[i].Delay = newValue;
+	p_SCH_tasks[(i + present) % SCH_MAX_TASKS] = &SCH_tasks[i];
+	SCH_task_count++;
+	return id;
+}
+;
 
-	    p_SCH_tasks[(i+present)%max] = &SCH_tasks[SCH_task_count];
-	    SCH_task_count++;
-};
+void SCH_Update() { // timer Run
+	if (p_SCH_tasks[pre] == NULL)
+		return;
 
-void SCH_Update(){ // timer Run
-	if(p_SCH_tasks[pre]->Delay > 0) p_SCH_tasks[pre]->Delay--;
-	    if(p_SCH_tasks[pre]->Delay <= 0) {
+	if (p_SCH_tasks[pre]->Delay > 0)
+		p_SCH_tasks[pre]->Delay--;
 
-	    	p_SCH_tasks[pre]->RunMe += 1;
-
-	        present++;
-	        pre = present%SCH_MAX_TASKS;
-//	        SCH_task_count--;
-	        // remove thisTimer
-	    };
-};
-void SCH_Dispatch_Task(){
+	if (p_SCH_tasks[pre]->Delay <= 0) {
+		p_SCH_tasks[pre]->RunMe = 1;
+		present++;
+		pre = present % SCH_MAX_TASKS;
+		SCH_task_count--;
+	};
+}
+;
+void SCH_Dispatch_Task() {
 	unsigned char index;
-	for(index = 0; index < SCH_task_count; index++){
-		if(SCH_tasks[index].RunMe > 0){
-			*(SCH_tasks[index].pTask)();
-			SCH_tasks[index].RunMe -= 1;
-			if(period != 0){
+	for (index = 0; index < SCH_MAX_TASKS; index++) {
+		if (SCH_tasks_valid[index] && SCH_tasks[index].RunMe > 0) {
+			(*SCH_tasks[index].pTask)(SCH_tasks[index].args);
+			SCH_tasks[index].RunMe = 0;
+			if (SCH_tasks[index].Period != 0) {
 				// copy old first pointer to the end
-				p_SCH_tasks[SCH_task_count + present] = &SCH_tasks[index];
-				SCH_tasks[index]->Delay = SCH_tasks[index]->Period;
-			}else{
+				SCH_tasks[index].Delay = SCH_tasks[index].Period;
+
+				// add to new position
+				int newValue = SCH_tasks[index].Delay;
+				int i = 0;
+				int tempResult = 0;
+				while (i < SCH_task_count) {
+					tempResult = newValue
+							- p_SCH_tasks[(i + present) % SCH_MAX_TASKS]->Delay;
+					if (tempResult >= 0) {
+						newValue = tempResult;
+					} else
+						break;
+					i++;
+				};
+
+				int j = SCH_task_count + present;
+				while (j > (i + present)) { // move timers to the end
+					p_SCH_tasks[j % SCH_MAX_TASKS] = p_SCH_tasks[(j - 1)
+							% SCH_MAX_TASKS];
+					j--;
+				};
+				if (j != (SCH_task_count + present))
+					p_SCH_tasks[(i + 1 + present) % SCH_MAX_TASKS]->Delay -=
+							newValue;
+
+				SCH_tasks[index].Delay = newValue;
+				p_SCH_tasks[(i + present) % SCH_MAX_TASKS] = &SCH_tasks[index];
+				SCH_task_count++;
+				/* printf("hehe"); */
+			} else {
 				// counter --
-				SCH_task_count--;
-			}
+				SCH_tasks_valid[index] = 0;
+			};
 		}
 	}
-};
-void SCH_Delete_Task(unsigned int taskID);
+}
+;
+void SCH_Delete_Task(unsigned int taskID) {
+	if (SCH_task_count == 0)
+		return;
+
+	int i = 0;
+	for (i = 0; i < SCH_task_count; i++) {
+		/* printf("%d - %d\n", p_SCH_tasks[(i+present)%SCH_MAX_TASKS]->TaskID, taskID); */
+		if (p_SCH_tasks[(i + present) % SCH_MAX_TASKS]->TaskID == taskID)
+			break;
+	};
+	int restDelay = p_SCH_tasks[(i + present) % SCH_MAX_TASKS]->Delay;
+	for (int j = i; j < SCH_task_count - 1; j++) {
+		p_SCH_tasks[(j + present) % SCH_MAX_TASKS] = p_SCH_tasks[(j + 1
+				+ present) % SCH_MAX_TASKS];
+	};
+	p_SCH_tasks[(i + present) % SCH_MAX_TASKS]->Delay += restDelay; // increase next delay
+
+	p_SCH_tasks[(SCH_task_count - 1 + present) % SCH_MAX_TASKS] = NULL; // remove last element
+	SCH_tasks_valid[taskID] = 0;
+
+	SCH_task_count--;
+}
+;
