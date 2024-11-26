@@ -6,7 +6,7 @@ int timerArrayCount = 0;
 void setTimer(int timer, int duration) {
 	if (timer >= timerArrayCount)
 		timerArrayCount++;
-	timerArray[timer] = duration / 50;
+	timerArray[timer] = duration / TIMER_DIVIDER;
 	timerFlag[timer] = 0;
 }
 ;
@@ -24,8 +24,6 @@ void timerRun() {
 	timerArray[6]--;
 	timerArray[7]--;
 	timerArray[8]--;
-	timerArray[9]--;
-	timerArray[10]--;
 	if (timerArray[0] <= 0) {
 		timerFlag[0] = 1;
 	}
@@ -62,11 +60,5 @@ void timerRun() {
 		timerFlag[8] = 1;
 	}
 	;
-	if (timerArray[9] <= 0) {
-		timerFlag[9] = 1;
-	};
-	if (timerArray[10] <= 0) {
-		timerFlag[10] = 1;
-	};
 }
 ;

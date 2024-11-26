@@ -4,6 +4,7 @@
 #include <main.h>
 
 #define TICK 10
+#define TIMER_DIVIDER 10
 
 #define AUTO_INIT 0
 #define AUTO_RED_GREEN 1

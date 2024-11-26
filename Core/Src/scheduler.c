@@ -13,12 +13,13 @@ void SCH_Init() {
 		SCH_tasks_valid[i] = 0;
 		p_SCH_tasks[i] = NULL;
 	};
+
 }
 ;
 
 uint8_t SCH_Add_Task(void (*func)(void*), void * args, uint32_t _delay, uint32_t _period) {
-	uint32_t delay = _delay/10;
-	uint32_t period = _period/10;
+	uint32_t delay = _delay/TIMER_DIVIDER;
+	uint32_t period = _period/TIMER_DIVIDER;
 	if (SCH_task_count >= SCH_MAX_TASKS) {
 		return 0xFF;
 	};
@@ -123,6 +124,9 @@ void SCH_Dispatch_Task() {
 				// counter --
 				SCH_tasks_valid[index] = 0;
 			};
+
+			// fix delay cong don khi cac task chay dong thoi
+			// b1: lay pointer cua no va xet trong p list xem co cai nao delay = 0 lien tiep voi no thi thuc thi luon, khac != 0 thi break;
 		}
 	}
 }
