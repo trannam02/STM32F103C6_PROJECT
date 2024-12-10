@@ -5,6 +5,7 @@
 
 #define SCH_MAX_TASKS 5
 #define NO_TASK_ID 0
+#define TRUEIDX(index,present)((index+present)%SCH_MAX_TASKS)
 
 typedef struct struct_task{
 	void (*pTask)(void*);

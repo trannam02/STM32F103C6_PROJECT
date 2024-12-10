@@ -5,8 +5,12 @@ sTask SCH_tasks[SCH_MAX_TASKS];
 sTask *p_SCH_tasks[SCH_MAX_TASKS];
 
 uint8_t SCH_task_count = 0;
+
 int present = 0;
+int SCH_old_dispatched = 0;
+
 uint8_t pre = 0;
+uint8_t runMeFlag = 0;
 
 void SCH_Init() {
 	for (int i = 0; i < SCH_MAX_TASKS; i++) {
@@ -76,6 +80,7 @@ void SCH_Update() { // timer Run
 
 	if (p_SCH_tasks[pre]->Delay <= 0) {
 		p_SCH_tasks[pre]->RunMe = 1;
+		if(p_SCH_tasks[SCH_old_dispatched % SCH_MAX_TASKS]->RunMe == 0) SCH_old_dispatched = present;
 		present++;
 		pre = present % SCH_MAX_TASKS;
 		SCH_task_count--;
@@ -84,16 +89,24 @@ void SCH_Update() { // timer Run
 ;
 void SCH_Dispatch_Task() {
 	unsigned char index;
-	for (index = 0; index < SCH_MAX_TASKS; index++) {
-		if (SCH_tasks_valid[index] && SCH_tasks[index].RunMe > 0) {
-			(*SCH_tasks[index].pTask)(SCH_tasks[index].args);
-			SCH_tasks[index].RunMe = 0;
-			if (SCH_tasks[index].Period != 0) {
+	unsigned char flag = 0;
+
+	if(p_SCH_tasks[TRUEIDX(0,SCH_old_dispatched)]->RunMe == 0) return;
+
+	int sl = present - SCH_old_dispatched;
+	for (index = 0; index < sl; index++) {
+		if (p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->Delay <= 0) {
+
+			if(flag == 0 && p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->RunMe == 1) flag = 1;
+
+			(*(p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->pTask))(p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->args);
+			p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->RunMe = 0;
+			if (p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->Period != 0) {
 				// copy old first pointer to the end
-				SCH_tasks[index].Delay = SCH_tasks[index].Period;
+				p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->Delay = p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->Period;
 
 				// add to new position
-				int newValue = SCH_tasks[index].Delay;
+				int newValue = p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->Delay;
 				int i = 0;
 				int tempResult = 0;
 				while (i < SCH_task_count) {
@@ -116,19 +129,24 @@ void SCH_Dispatch_Task() {
 					p_SCH_tasks[(i + 1 + present) % SCH_MAX_TASKS]->Delay -=
 							newValue;
 
-				SCH_tasks[index].Delay = newValue;
-				p_SCH_tasks[(i + present) % SCH_MAX_TASKS] = &SCH_tasks[index];
+				p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)]->Delay = newValue;
+				p_SCH_tasks[(i + present) % SCH_MAX_TASKS] = p_SCH_tasks[TRUEIDX(index,SCH_old_dispatched)];
 				SCH_task_count++;
 				/* printf("hehe"); */
-			} else {
-				// counter --
-				SCH_tasks_valid[index] = 0;
-			};
 
-			// fix delay cong don khi cac task chay dong thoi
-			// b1: lay pointer cua no va xet trong p list xem co cai nao delay = 0 lien tiep voi no thi thuc thi luon, khac != 0 thi break;
-		}
-	}
+			} else {
+//				HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+				// counter unchange (because counter -- in update)
+//				SCH_tasks_valid[index] = 0;
+			};
+		}else{ // delay > 0
+
+			if(flag == 1) {
+//				HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+				break;
+			};
+		};
+	};
 }
 ;
 void SCH_Delete_Task(unsigned int taskID) {

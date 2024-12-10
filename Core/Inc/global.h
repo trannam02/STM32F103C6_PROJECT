@@ -3,8 +3,8 @@
 
 #include <main.h>
 
-#define TICK 10
-#define TIMER_DIVIDER 10
+#define TICK 50
+#define TIMER_DIVIDER 50
 
 #define AUTO_INIT 0
 #define AUTO_RED_GREEN 1

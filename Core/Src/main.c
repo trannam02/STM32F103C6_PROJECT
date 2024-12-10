@@ -58,6 +58,8 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	SCH_Update();
+	timerRun();
+	getKeyInput();
 }
 ;
 /* USER CODE END 0 */
@@ -112,11 +114,14 @@ int main(void) {
 	fsm_manual_init();
 
 	SCH_Add_Task(&ledBlinky, NULL, 0, 1000);
+
+//	SCH_Add_Task(&timerRun, NULL, 0, TICK);
+//	SCH_Add_Task(&getKeyInput, NULL, 0, TICK);
+
 	SCH_Add_Task(&fsm_auto_run, NULL, 0, TICK);
 	SCH_Add_Task(&fsm_manual_run, NULL, 0, TICK);
 	SCH_Add_Task(&fsm_setting_run, NULL, 0, TICK);
-	SCH_Add_Task(&timerRun, NULL, 0, TICK);
-	SCH_Add_Task(&getKeyInput, NULL, 0, TICK);
+
 
 	HAL_TIM_Base_Start_IT(&htim2);
 	/* USER CODE END 2 */
@@ -126,6 +131,8 @@ int main(void) {
 	while (1) {
 		/* USER CODE END WHILE */
 		SCH_Dispatch_Task();
+//		fsm_auto_run();
+//		fsm_manual_run();
 		/* USER CODE BEGIN 3 */
 	};
 
