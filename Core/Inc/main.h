@@ -32,11 +32,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "fsm_auto_run.h"
-#include "fsm_setting.h"
-#include "fsm_manual.h"
-
-#include "button.h"
+extern ADC_HandleTypeDef hadc1;
+extern UART_HandleTypeDef huart2;
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -62,24 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BUTTON_1_Pin GPIO_PIN_13
-#define BUTTON_1_GPIO_Port GPIOC
-#define BUTTON_2_Pin GPIO_PIN_14
-#define BUTTON_2_GPIO_Port GPIOC
-#define BUTTON_3_Pin GPIO_PIN_15
-#define BUTTON_3_GPIO_Port GPIOC
-#define V_RED_Pin GPIO_PIN_7
-#define V_RED_GPIO_Port GPIOA
-#define V_YELLOW_Pin GPIO_PIN_8
-#define V_YELLOW_GPIO_Port GPIOA
-#define V_GREEN_Pin GPIO_PIN_9
-#define V_GREEN_GPIO_Port GPIOA
-#define H_RED_Pin GPIO_PIN_10
-#define H_RED_GPIO_Port GPIOA
-#define H_YELLOW_Pin GPIO_PIN_11
-#define H_YELLOW_GPIO_Port GPIOA
-#define H_GREEN_Pin GPIO_PIN_12
-#define H_GREEN_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

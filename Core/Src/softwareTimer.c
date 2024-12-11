@@ -1,12 +1,12 @@
 #include "../Inc/softwareTimer.h"
-#include "../Inc/update7SEG.h"
+
 int timerArray[20];
 int timerFlag[20];
 int timerArrayCount = 0;
 void setTimer(int timer, int duration) {
 	if (timer >= timerArrayCount)
 		timerArrayCount++;
-	timerArray[timer] = duration / TIMER_DIVIDER;
+	timerArray[timer] = duration / 10;
 	timerFlag[timer] = 0;
 }
 ;
